@@ -1,0 +1,23 @@
+# Core dependencies for trademark extraction system
+fastapi
+uvicorn[standard]
+python-multipart
+
+# LangChain and AI dependencies
+langchain-groq
+langchain-core
+
+# PDF processing
+PyMuPDF
+
+# Additional utilities
+python-dotenv
+requests
+
+# Optional: For enhanced functionality
+pillow
+numpy
+
+# Development dependencies (optional)
+pytest
+pytest-asyncio 
