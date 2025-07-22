@@ -37,6 +37,22 @@ The system extracts trademark data in the following JSON structure:
 }
 ```
 
+## CSV Database Format
+
+The system now works with CSV files containing existing trademark data. The required CSV columns are:
+
+| Column | Description |
+|--------|-------------|
+| `Client / Applicant` | Name of the trademark applicant/owner |
+| `Application No.` | Official application or registration number |
+| `Trademark` | The trademark name/text |
+| `Logo` | Description of logo/visual elements |
+| `Class` | Trademark classification (e.g., 09, 42) |
+| `Status` | Registration status (Registered, Pending, etc.) |
+| `Validity` | Expiration or validity date |
+
+See `trademark_csv_template.csv` for an example format.
+
 ## Installation
 
 1. **Clone or download the project files**
@@ -60,37 +76,50 @@ The system extracts trademark data in the following JSON structure:
 
 ## Usage
 
-### Option 1: Using the Test Script
+### Option 1: Upload CSV Database and Compare
 
-Process the ViewJournal.pdf directly:
+1. **Prepare your CSV database**:
+   - Use the format: `Client / Applicant`, `Application No.`, `Trademark`, `Logo`, `Class`, `Status`, `Validity`
+   - See `trademark_csv_template.csv` for reference
+
+2. **Start the server**:
+   ```bash
+   python main.py
+   ```
+
+3. **Upload your CSV database**:
+   - Use the `/csv/upload` endpoint
+   - Or access API docs at [http://localhost:8000/docs](http://localhost:8000/docs)
+
+4. **Extract and compare trademarks**:
+   - Use `/extract/trademark/pdf_with_comparison` for PDF extraction with similarity analysis
+   - Use `/compare/trademark` to compare individual trademarks
+
+### Option 2: Using the Test Script
+
+Test the comparison system (requires existing CSV):
+
+```bash
+python test_comparison.py
+```
+
+Extract trademarks without comparison:
 
 ```bash
 python test_trademark_extraction.py
 ```
 
-Test with sample text:
+### Option 3: Using the FastAPI Web Service
 
-```bash
-python test_trademark_extraction.py --sample
-```
+**Key Endpoints**:
 
-### Option 2: Using the FastAPI Web Service
-
-1. **Start the server**:
-   ```bash
-   python main.py
-   ```
-
-2. **Access the API documentation**:
-   Open [http://localhost:8000/docs](http://localhost:8000/docs) in your browser
-
-3. **Available endpoints**:
-
-   - `POST /api/v1/extract/trademark/pdf` - Upload PDF file
-   - `POST /api/v1/extract/trademark/image` - Upload image file
-   - `POST /api/v1/extract/trademark/text` - Submit text directly
-   - `POST /api/v1/extract/trademark/base64` - Submit base64-encoded image
-   - `GET /api/v1/trademark/health` - Health check
+   - `POST /csv/upload` - Upload CSV database
+   - `POST /extract/trademark/pdf_with_comparison` - Extract PDF + compare
+   - `POST /compare/trademark` - Compare single trademark
+   - `POST /extract/trademark/pdf` - Extract PDF only
+   - `POST /extract/trademark/image` - Upload image file
+   - `GET /csv/stats` - Database statistics
+   - `GET /trademark/health` - Health check
 
 ### Option 3: Direct Python Usage
 

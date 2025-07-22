@@ -18,6 +18,11 @@ requests
 pillow
 numpy
 
+# Trademark comparison dependencies
+jellyfish
+fuzzywuzzy
+python-Levenshtein
+
 # Development dependencies (optional)
 pytest
 pytest-asyncio 
