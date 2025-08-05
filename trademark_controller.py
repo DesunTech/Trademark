@@ -13,7 +13,7 @@ load_dotenv()
 
 # For demo purposes, we'll use a hardcoded  key or environment variable
 # In production, you should get this from a secure configuration
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "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")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 
 trademark_router = APIRouter()
 trademark_extractor = TrademarkExtractor(groq_api_key=GROQ_API_KEY)
