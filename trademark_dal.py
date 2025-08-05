@@ -7,19 +7,19 @@ import base64
 import json
 import re
 from fastapi import HTTPException
-
+from pydantic import SecretStr
 
 class TrademarkExtractor:
     def __init__(self, groq_api_key: str):
         self.model = ChatGroq(
             temperature=0.1,
-            groq_api_key=groq_api_key,
-            model_name="meta-llama/llama-4-scout-17b-16e-instruct",
+            model="meta-llama/llama-4-scout-17b-16e-instruct",
+            api_key=SecretStr(groq_api_key),
         )
         self.model2 = ChatGroq(
             temperature=0.1,
-            groq_api_key=groq_api_key,
-            model_name="llama-3.3-70b-versatile",
+            model="llama-3.3-70b-versatile",
+            api_key=SecretStr(groq_api_key),
         )
 
         self.text_extract_prompt_template = ChatPromptTemplate.from_messages([

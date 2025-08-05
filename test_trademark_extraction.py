@@ -18,7 +18,7 @@ def main():
     
     # Initialize the trademark extractor
     # Replace with your actual Groq API key
-    groq_api_key = os.getenv("GROQ_API_KEY", "your-groq-api-key-here")
+    groq_api_key = os.getenv("GROQ_API_KEY", "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")
     
     if groq_api_key == "your-groq-api-key-here":
         print(" Warning: Please set your GROQ_API_KEY in environment variables or .env file")

@@ -23,6 +23,11 @@ jellyfish
 fuzzywuzzy
 python-Levenshtein
 
+# Streamlit UI dependencies
+streamlit
+plotly
+pandas
+
 # Development dependencies (optional)
 pytest
 pytest-asyncio 

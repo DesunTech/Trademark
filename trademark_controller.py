@@ -11,9 +11,9 @@ import base64
 from dotenv import load_dotenv
 load_dotenv()
 
-# For demo purposes, we'll use a hardcoded API key or environment variable
+# For demo purposes, we'll use a hardcoded  key or environment variable
 # In production, you should get this from a secure configuration
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "your-groq-api-key-here")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "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")
 
 trademark_router = APIRouter()
 trademark_extractor = TrademarkExtractor(groq_api_key=GROQ_API_KEY)
@@ -162,6 +162,9 @@ async def extract_and_compare_trademark_from_pdf(file: UploadFile = File(...), s
         # Load existing trademarks from CSV
         trademark_comparator.load_existing_trademarks_from_csv(csv_manager.csv_file_path)
         
+        # Debug: Check if CSV data is loaded
+        print(f"Loaded {len(trademark_comparator.existing_trademarks)} existing trademarks for comparison")
+        
         # Read file content
         file_bytes = await file.read()
         
@@ -170,8 +173,23 @@ async def extract_and_compare_trademark_from_pdf(file: UploadFile = File(...), s
         
         # Compare each extracted trademark with existing database
         comparison_results = []
-        for trademark in trademarks_data:
-            comparison_report = trademark_comparator.generate_comparison_report(trademark, similarity_threshold)
+        for i, trademark in enumerate(trademarks_data):
+            print(f"Comparing trademark {i+1}: {trademark.get('name', '')} vs {len(trademark_comparator.existing_trademarks)} existing trademarks")
+            
+            # Try with lower threshold to see if there are any matches
+            comparison_report = trademark_comparator.generate_comparison_report(trademark, max(similarity_threshold, 30.0))
+            
+            # If no matches with lower threshold, try comparing against the extracted data itself
+            if comparison_report['similar_trademarks_found'] == 0 and len(trademarks_data) > 1:
+                # Compare against other extracted trademarks
+                for j, other_trademark in enumerate(trademarks_data):
+                    if i != j:  # Don't compare with itself
+                        similarity = trademark_comparator.calculate_overall_similarity(
+                            trademark.get('name', ''), other_trademark.get('name', '')
+                        )
+                        if similarity['overall_similarity'] >= similarity_threshold:
+                            print(f"Found similarity between extracted trademarks: {similarity['overall_similarity']:.2f}%")
+            
             comparison_results.append(comparison_report)
         
         return {

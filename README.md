@@ -8,7 +8,7 @@ A comprehensive system for extracting trademark data from PDF files and images u
 - **Image Processing**: Support for JPG, PNG, BMP, TIFF image formats
 - **AI-Powered**: Uses Groq's LLaMA models for intelligent text extraction and structuring
 - **Structured Output**: Returns trademark data in consistent JSON format
-- **RESTful API**: FastAPI-based web service with automatic documentation
+- **RESTful **: FastAPI-based web service with automatic documentation
 - **Batch Processing**: Process multiple pages/trademarks in a single PDF
 
 ## JSON Output Format
@@ -89,7 +89,7 @@ See `trademark_csv_template.csv` for an example format.
 
 3. **Upload your CSV database**:
    - Use the `/csv/upload` endpoint
-   - Or access API docs at [http://localhost:8000/docs](http://localhost:8000/docs)
+   - Or access  docs at [http://localhost:8000/docs](http://localhost:8000/docs)
 
 4. **Extract and compare trademarks**:
    - Use `/extract/trademark/pdf_with_comparison` for PDF extraction with similarity analysis
@@ -145,12 +145,12 @@ for i, trademark in enumerate(trademarks, 1):
     print("---")
 ```
 
-## API Examples
+##  Examples
 
 ### Upload PDF via cURL
 
 ```bash
-curl -X POST "http://localhost:8000/api/v1/extract/trademark/pdf" \
+curl -X POST "http://localhost:8000//v1/extract/trademark/pdf" \
      -H "accept: application/json" \
      -H "Content-Type: multipart/form-data" \
      -F "file=@ViewJournal.pdf"
@@ -159,7 +159,7 @@ curl -X POST "http://localhost:8000/api/v1/extract/trademark/pdf" \
 ### Submit Text via cURL
 
 ```bash
-curl -X POST "http://localhost:8000/api/v1/extract/trademark/text" \
+curl -X POST "http://localhost:8000//v1/extract/trademark/text" \
      -H "Content-Type: application/json" \
      -d '{
        "text": "TRADEMARK REGISTRATION\nCompany: ABC Corp\nAddress: 123 Main St\nCity: New York"
@@ -169,7 +169,7 @@ curl -X POST "http://localhost:8000/api/v1/extract/trademark/text" \
 ### Upload Image via cURL
 
 ```bash
-curl -X POST "http://localhost:8000/api/v1/extract/trademark/image" \
+curl -X POST "http://localhost:8000//v1/extract/trademark/image" \
      -H "accept: application/json" \
      -H "Content-Type: multipart/form-data" \
      -F "file=@trademark_document.jpg"
@@ -179,7 +179,7 @@ curl -X POST "http://localhost:8000/api/v1/extract/trademark/image" \
 
 ```
 ├── trademark_dal.py          # Data access layer with AI extraction logic
-├── trademark_controller.py   # FastAPI controller with API endpoints
+├── trademark_controller.py   # FastAPI controller with  endpoints
 ├── main.py                  # FastAPI application entry point
 ├── test_trademark_extraction.py  # Test script for direct usage
 ├── requirements.txt         # Python dependencies
@@ -193,7 +193,7 @@ curl -X POST "http://localhost:8000/api/v1/extract/trademark/image" \
 The system is built following the same patterns as the existing invoice extraction system:
 
 1. **TrademarkExtractor (DAL)**: Core business logic for AI-powered extraction
-2. **trademark_controller**: RESTful API endpoints using FastAPI
+2. **trademark_controller**: RESTful  endpoints using FastAPI
 3. **main.py**: Application entry point and configuration
 4. **test_trademark_extraction.py**: Command-line interface for testing
 
@@ -206,7 +206,7 @@ The system is built following the same patterns as the existing invoice extracti
 - **PDF Processing**: Handles multi-page PDFs by processing each page separately
 - **Error Handling**: Robust error handling with informative messages
 
-### API Endpoints
+###  Endpoints
 
 - **Flexible Input**: Support for PDF, images, text, and base64-encoded data
 - **Consistent Output**: All endpoints return data in the same JSON structure
@@ -228,7 +228,7 @@ The system uses two Groq models:
 ## Error Handling
 
 The system includes comprehensive error handling for:
-- Missing or invalid API keys
+- Missing or invalid  keys
 - Unsupported file formats
 - PDF processing errors
 - AI model errors
@@ -237,17 +237,17 @@ The system includes comprehensive error handling for:
 ## Dependencies
 
 Key dependencies include:
-- **FastAPI**: Web framework for API endpoints
+- **FastAPI**: Web framework for  endpoints
 - **langchain-groq**: Integration with Groq AI models
 - **PyMuPDF**: PDF processing and image extraction
 - **python-dotenv**: Environment variable management
 
-## Getting Your Groq API Key
+## Getting Your Groq  Key
 
 1. Visit [console.groq.com](https://console.groq.com)
 2. Sign up or log in to your account
-3. Navigate to the API Keys section
-4. Create a new API key
+3. Navigate to the  Keys section
+4. Create a new  key
 5. Copy the key and add it to your `.env` file
 
 ## Troubleshooting
@@ -266,17 +266,17 @@ Key dependencies include:
    - Ensure the PDF file exists and is readable
    - Check that the PDF is not password-protected
 
-4. **API rate limits**
-   - Groq has rate limits on API usage
+4. ** rate limits**
+   - Groq has rate limits on  usage
    - Consider adding delays between requests for large batches
 
 ## License
 
-This project is provided as-is for demonstration purposes. Please ensure you comply with Groq's terms of service when using their API.
+This project is provided as-is for demonstration purposes. Please ensure you comply with Groq's terms of service when using their .
 
 ## Support
 
 For issues related to:
-- **Groq API**: Visit [Groq Documentation](https://console.groq.com/docs)
+- **Groq **: Visit [Groq Documentation](https://console.groq.com/docs)
 - **FastAPI**: Visit [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - **PDF Processing**: Check PyMuPDF documentation 

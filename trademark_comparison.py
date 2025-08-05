@@ -126,14 +126,28 @@ class TrademarkComparator:
             existing_name = existing.get("Client / Applicant", "")
             existing_logo_text = existing.get("Trademark", "")
             
+            # Fallback: If Trademark column is empty, use Client/Applicant for trademark comparison
+            if not existing_logo_text or not existing_logo_text.strip():
+                existing_logo_text = existing_name
+                fallback_used = True
+            else:
+                fallback_used = False
+            
             # Compare company names/applicants
             name_similarity = self.calculate_overall_similarity(new_name, existing_name)
             
-            # Compare trademark/logo text
+            # Compare trademark/logo text (may use fallback)
             logo_similarity = self.calculate_overall_similarity(new_logo_text, existing_logo_text)
             
-            # Use the higher similarity score
-            max_similarity = max(name_similarity["overall_similarity"], logo_similarity["overall_similarity"])
+            # Determine comparison type more accurately
+            if fallback_used:
+                # If fallback was used, both comparisons are essentially the same
+                max_similarity = max(name_similarity["overall_similarity"], logo_similarity["overall_similarity"])
+                similarity_type = "applicant_name"  # Both are comparing against applicant name
+            else:
+                # Normal case: separate name and trademark comparisons
+                max_similarity = max(name_similarity["overall_similarity"], logo_similarity["overall_similarity"])
+                similarity_type = "applicant" if name_similarity["overall_similarity"] > logo_similarity["overall_similarity"] else "trademark"
             
             if max_similarity >= similarity_threshold:
                 similar_trademarks.append({
@@ -141,7 +155,9 @@ class TrademarkComparator:
                     "name_similarity": name_similarity,
                     "logo_similarity": logo_similarity,
                     "max_similarity_score": max_similarity,
-                    "similarity_type": "applicant" if name_similarity["overall_similarity"] > logo_similarity["overall_similarity"] else "trademark"
+                    "similarity_type": similarity_type,
+                    "fallback_used": fallback_used,
+                    "comparison_note": "Used Client/Applicant name for trademark comparison (Trademark column empty)" if fallback_used else "Normal comparison"
                 })
         
         # Sort by similarity score (highest first)
